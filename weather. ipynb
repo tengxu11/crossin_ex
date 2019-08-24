@@ -1,0 +1,31 @@
+import requests
+import re
+
+def feng(data):
+    fengli = re.findall('\d+\w',data)
+    return fengli
+
+while True:
+    city = input('请输入要查询的城市：')
+    if not city:
+        break
+    try:
+        req = requests.get(f'http://wthrcdn.etouch.cn/weather_mini?city={city}')
+    except:
+        print('查询失败')
+        break
+    status = req.json().get('status')
+    if status != 1000:
+        print(f'抱歉没有查询到{city}')
+    else:
+        city_data = city_date.get('data')
+
+        if city_data:
+            city_forecast = city_data['forecast'][0]
+            print(city_forecast.get('date'))
+            print(city_forecast.get('high'))
+            print(city_forecast.get('low'))
+            print(feng(city_forecast.get('fengli'))[0])
+            print(city_forecast.get('type'))
+        else:
+            print('没有获取到')
